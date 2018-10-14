@@ -22,8 +22,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 
 
-因为原项目是很久之前的，所以算是重新对项目进行了重构。原项目采用虚拟数据为配置dev-server.js， 而现在已经没有这个文件，现在的配置是在 webpack-de-server.js 中，配置方式参考：
-<a href="https://cloud.tencent.com/developer/article/1195991">https://cloud.tencent.com/developer/article/1195991</a>
-
+因为原项目是很久之前的，所以算是重新对项目进行了重构。原项目采用虚拟数据为配置dev-server.js， 而现在已经没有这个文件，现在的配置是在 webpack-de-config.js 中，配置方式参考：
+<a href="https://cloud.tencent.com/developer/article/1195991">https://cloud.tencent.com/developer/article/1195991</a>  中的方法三。
 
 
