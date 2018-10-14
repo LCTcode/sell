@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-header></v-header>
+    <v-header :seller="seller"></v-header> <!--获取数据后将数据绑定，在子组件用props接收-->
     <div class="nav">
       <div class="navItem"><router-link to="goods">商品</router-link></div>
       <div class="navItem"><router-link to="ratings">评论</router-link></div>
