@@ -56,7 +56,7 @@
               </div>
               <div class="shop-container">
                 <p class="shop-content">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque earum fugit illum ipsum nihil, perspiciatis qui sint tempore. Ipsam, neque.
+                  {{seller.bulletin}}
                 </p>
               </div>
             </div>
