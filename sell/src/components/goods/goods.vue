@@ -2,7 +2,7 @@
     <div class="goods">
       <div class="menu-wrapper" ref="menuWrapper">
         <ul>
-          <li v-for="(item,index) in goods" :key="index" class="menu-item" :class="{'current': currentIndex === index}">
+          <li v-for="(item,index) in goods" @click="selectMenu(index,$event)" :key="index" class="menu-item" :class="{'current': currentIndex === index}">
             <span class="text">
               <span v-show="item.type>0" class="icon" :class="classMap[item.type]"></span>
             {{item.name}}</span>
@@ -65,7 +65,7 @@ export default {
       for (let i = 0; i < this.listHeight.length; i++) {
         let height1 = this.listHeight[i]
         let height2 = this.listHeight[i + 1]
-        if (!height2 || (this.scrollY > height1 && this.scrollY < height2)) {
+        if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
           return i
         }
       }
@@ -90,8 +90,18 @@ export default {
     this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special']
   },
   methods: {
+    selectMenu (index, event) {
+      if (!event._constructed) { // 如果不存在这个属性,则为原生点击事件，不执行下面的函数
+        return
+      }
+      let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook')
+      let el = foodList[index]
+      this.foodsScroll.scrollToElement(el, 300)
+    },
     _initScroll () {
-      this.menuScroll = new BScroll(this.$refs.menuWrapper, {}) // dom对象&json
+      this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+        click: true
+      }) // dom对象&json /BScroll 移动端默认阻止一些事件比如点击，所以要 click true
 
       this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
         probeType: 3 // better_scroll 当 probeType为 3 的时候，不仅在屏幕滑动的过程中，而且在 momentum 滚动动画运行过程中实时派发 scroll 事件
