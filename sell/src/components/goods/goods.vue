@@ -33,19 +33,23 @@
                       <span class="now">￥{{food.price}}</span><!--
                       --><span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                     </div>
+                    <div class="cartcontrol">
+                      <control :food="food"></control>
+                    </div>
                   </div>
                 </li>
               </ul>
           </li>
         </ul>
       </div>
-      <shopcart :delivery-price = "seller.deliveryPrice" :min-price = "seller.minPrice"></shopcart>
+      <shopcart :select-foods = "selectFoods" :delivery-price = "seller.deliveryPrice" :min-price = "seller.minPrice"></shopcart>
     </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll'
 import shopcart from '../../components/shopcart/shopcart'
+import control from '../../components/carcontrol/control'
 
 const errOk = 0
 
@@ -72,6 +76,17 @@ export default {
         }
       }
       return 0
+    },
+    selectFoods () {
+      let foods = []
+      this.goods.forEach((good) => {
+        good.foods.forEach((food) => {
+          if (food.count) {
+            foods.push(food)
+          }
+        })
+      })
+      return foods
     }
   },
   created () {
@@ -106,7 +121,8 @@ export default {
       }) // dom对象&json /BScroll 移动端默认阻止一些事件比如点击，所以要 click true
 
       this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
-        probeType: 3 // better_scroll 当 probeType为 3 的时候，不仅在屏幕滑动的过程中，而且在 momentum 滚动动画运行过程中实时派发 scroll 事件
+        probeType: 3, // better_scroll 当 probeType为 3 的时候，不仅在屏幕滑动的过程中，而且在 momentum 滚动动画运行过程中实时派发 scroll 事件
+        click: true
       })
       this.foodsScroll.on('scroll', (pos) => {
         this.scrollY = Math.abs(Math.round(pos.y))
@@ -124,7 +140,8 @@ export default {
     }
   },
   components: {
-    shopcart
+    shopcart,
+    control
   }
 }
 </script>
@@ -203,6 +220,7 @@ export default {
           flex: 0 0 57px
           margin-right 10px
         .content
+          position relative
           flex:1
           .name
             margin 2px 0 8px 0
@@ -213,13 +231,12 @@ export default {
           .desc, .estra
             line-height 10px
             font-size 10px
-            height:12px
             color: rgb(7,17,27)
           .desc
-            line-height 10px
+            line-height 12px
             margin-bottom 8px
           .estra
-            line-height 12px
+            line-height 10px
             .count
              margin-right 12px
           .price
@@ -233,4 +250,8 @@ export default {
               text-decoration line-through
               font-size 10px
               color rgb(147,153,159)
+          .cartcontrol
+            position absolute
+            right:0
+            bottom 1px
 </style>
