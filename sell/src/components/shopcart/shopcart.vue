@@ -1,6 +1,6 @@
 <template>
   <div class="shopcart">
-    <div class="content">
+    <div class="content" @click="toggle">
       <div class="content-left">
         <div class="logo-warp">
           <div class="num" v-show="totalCount>0">
@@ -18,11 +18,31 @@
           {{payDesc}}
         </div>
       </div>
+      <div class="cart-dital">
+          <div class="cart-list" v-show="listShow">
+            <div class="list-header">
+              <h1 class="title">购物车</h1>
+              <span class="empty">清空</span>
+            </div>
+            <div class="list-content">
+              <ul>
+                <li class="food" v-for="(food,index) in selectFoods" :key="index">
+                  <span class="name">{{food.name}}</span>
+                  <div class="price">￥ {{food.price*food.count}}</div>
+                  <div class="cart-control">
+                    <control :food="food"></control>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import control from '../../components/carcontrol/control'
 export default {
   props: {
     selectFoods: {
@@ -43,6 +63,11 @@ export default {
     minPrice: {
       type: Number,
       default: 0
+    }
+  },
+  data () {
+    return {
+      fold: true
     }
   },
   computed: {
@@ -76,6 +101,24 @@ export default {
       } else {
         return 'enough'
       }
+    },
+    listShow () {
+      if (!this.totalCount) {
+        return false
+      }
+      let show = !this.fold
+      return show
+    }
+  },
+  components: {
+    control
+  },
+  methods: {
+    toggle () {
+      if (!this.totalCount) {
+        return
+      }
+      this.fold = !this.fold
     }
   }
 }

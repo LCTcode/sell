@@ -77,7 +77,7 @@ export default {
       }
       return 0
     },
-    selectFoods () {
+    selectFoods () { // 购物车与左侧数据绑定
       let foods = []
       this.goods.forEach((good) => {
         good.foods.forEach((food) => {
@@ -90,7 +90,7 @@ export default {
     }
   },
   created () {
-    this.$http.get('/api/goods').then((res) => {
+    this.$http.get('/api/goods').then((res) => { // 从json 获取到goods
       res = res.body
       if (res.errno === errOk) {
         this.goods = res.data
