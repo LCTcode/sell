@@ -1,8 +1,8 @@
 <template>
   <div class="shopcart">
-    <div class="content" @click="toggle">
-      <div class="content-left">
-        <div class="logo-warp">
+    <div class="content">
+      <div class="content-left" @click="toggle">
+        <div class="logo-warp" >
           <div class="num" v-show="totalCount>0">
             {{totalCount}}
           </div>
@@ -20,7 +20,7 @@
       </div>
     </div>
       <transition name="fold">
-        <div class="shopcart-list" v-show="fold">
+        <div class="shopcart-list" v-show="listShow">
           <div class="list-header">
             <h1 class="title">购物车</h1>
             <span class="empty" @click="empty">清空</span>
@@ -43,6 +43,7 @@
   </div>
 </template>
 <script>
+  /* eslint-disable no-new */
 import control from '../../components/carcontrol/control'
 import BScroll from 'better-scroll'
 export default {
@@ -76,7 +77,7 @@ export default {
     totalPrice () {
       let total = 0
       this.selectFoods.forEach((food) => {
-        total = food.price * food.count
+        total += food.price * food.count // 统计选中的总数金额
       })
       return total
     },
@@ -103,8 +104,8 @@ export default {
       } else {
         return 'enough'
       }
-    }
-    /* listShow () { // 购物车详情
+    },
+    listShow () { // 购物车详情
       if (!this.totalCount) {
         return false
       }
@@ -122,10 +123,7 @@ export default {
         })
       }
       return show
-    } */
-  },
-  components: {
-    control
+    }
   },
   methods: {
     toggle () {
@@ -140,28 +138,10 @@ export default {
       })
     }
   },
-  watch: {
-    fold () { // 购物车详情
-      if (!this.totalCount) {
-        return false
-      }
-      let show = !this.fold
-      if (show) {
-        this.$nextTick(() => {
-          if (!this.scroll) {
-            this.scroll = new BScroll(this.$refs.listContent, {
-              click: true
-            })
-          } else {
-            this.scroll.refresh()
-          }
-        })
-      }
-      return show
-    }
+  components: {
+    control
   }
 }
-
 </script>
 
 <style scoped lang="stylus"  type="text/stylus">
