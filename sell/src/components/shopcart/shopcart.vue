@@ -20,7 +20,7 @@
       </div>
     </div>
       <transition name="fold">
-        <div class="shopcart-list" v-show="listShow">
+        <div class="shopcart-list" v-show="fold">
           <div class="list-header">
             <h1 class="title">购物车</h1>
             <span class="empty" @click="empty">清空</span>
@@ -69,7 +69,7 @@ export default {
   },
   data () {
     return {
-      fold: true
+      fold: false
     }
   },
   computed: {
@@ -103,8 +103,8 @@ export default {
       } else {
         return 'enough'
       }
-    },
-    listShow () { // 购物车详情
+    }
+    /* listShow () { // 购物车详情
       if (!this.totalCount) {
         return false
       }
@@ -122,7 +122,7 @@ export default {
         })
       }
       return show
-    }
+    } */
   },
   components: {
     control
@@ -139,8 +139,29 @@ export default {
         food.count = 0
       })
     }
+  },
+  watch: {
+    fold () { // 购物车详情
+      if (!this.totalCount) {
+        return false
+      }
+      let show = !this.fold
+      if (show) {
+        this.$nextTick(() => {
+          if (!this.scroll) {
+            this.scroll = new BScroll(this.$refs.listContent, {
+              click: true
+            })
+          } else {
+            this.scroll.refresh()
+          }
+        })
+      }
+      return show
+    }
   }
 }
+
 </script>
 
 <style scoped lang="stylus"  type="text/stylus">
@@ -149,13 +170,12 @@ export default {
     left 0
     bottom 0
     width: 100%
-    height 48px
     z-index: 50
+    height 48px
     background #141d27
     .content
       border none
       display flex
-      width: 100%
       background #141d27
       font-size 0
       .content-left
