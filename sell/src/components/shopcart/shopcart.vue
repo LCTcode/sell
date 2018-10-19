@@ -18,31 +18,33 @@
           {{payDesc}}
         </div>
       </div>
-      <div class="cart-dital">
-          <div class="cart-list" v-show="listShow">
-            <div class="list-header">
-              <h1 class="title">购物车</h1>
-              <span class="empty">清空</span>
-            </div>
-            <div class="list-content">
-              <ul>
-                <li class="food" v-for="(food,index) in selectFoods" :key="index">
-                  <span class="name">{{food.name}}</span>
-                  <div class="price">￥ {{food.price*food.count}}</div>
-                  <div class="cart-control">
-                    <control :food="food"></control>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-      </div>
     </div>
+      <transition name="fold">
+        <div class="shopcart-list" v-show="listShow">
+          <div class="list-header">
+            <h1 class="title">购物车</h1>
+            <span class="empty" @click="empty">清空</span>
+          </div>
+          <div class="list-content" ref="listContent">
+            <ul>
+              <li class="food" v-for="(food,index) in selectFoods" :key="index">
+                <span class="name">{{food.name}}</span>
+                <div class="price">
+                  <span>￥{{food.price*food.count}}</span>
+                </div>
+                <div class="cartcontrol-wrapper">
+                  <control :food="food"></control>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </transition>
   </div>
 </template>
-
 <script>
 import control from '../../components/carcontrol/control'
+import BScroll from 'better-scroll'
 export default {
   props: {
     selectFoods: {
@@ -102,11 +104,23 @@ export default {
         return 'enough'
       }
     },
-    listShow () {
+    listShow () { // 购物车详情
       if (!this.totalCount) {
         return false
       }
       let show = !this.fold
+      if (show) {
+        this.$nextTick(() => {
+          if (!this.scroll) {
+            let _scroll = this.scroll
+            _scroll = new BScroll(this.$refs.listContent, {
+              click: true
+            })
+          } else {
+            this.scroll.refresh()
+          }
+        })
+      }
       return show
     }
   },
@@ -119,6 +133,11 @@ export default {
         return
       }
       this.fold = !this.fold
+    },
+    empty () {
+      this.selectFoods.forEach((food) => {
+        food.count = 0
+      })
     }
   }
 }
@@ -134,7 +153,10 @@ export default {
     z-index: 50
     background #141d27
     .content
+      border none
       display flex
+      width: 100%
+      background #141d27
       font-size 0
       .content-left
         flex 1
@@ -197,8 +219,8 @@ export default {
           font-size 16px
           color: rgba(255,255,255,.4)
           font-weight 700
-          line-height 48px
-          padding-left 12px
+          line-height 24px
+          margin 12px 0 0 12px
           vertical-align top
       .content-right
         flex 0 0 105px
@@ -214,4 +236,56 @@ export default {
           &.enough
             background green
             color: #ffffff
+    .shopcart-list
+      position absolute
+      left:0
+      top:0
+      width: 100%
+      z-index: -1
+      transform: translate3d(0, -100%, 0)
+      &.fold-enter-active,&.fold-leave-active
+        transition all 0.5s
+      &.fold-enter,&.fold-leave-active
+        transform translate3d(0,0,0)
+      .list-header
+        height:40px
+        line-height:40px
+        padding:0 18px
+        background #f3f5f7
+        border-bottom 1px solid rgba(7,17,27,.1)
+        .title
+          float: left
+          font-size 14px
+          color: rgb(7,17,27)
+        .empty
+          float: right
+          font-size 12px
+          color: rgb(0,160,220)
+
+      .list-content
+        padding:0 18px
+        max-height 217px
+        background #ffffff
+        overflow hidden
+        .food
+          position relative
+          padding:12px 0
+          box-sizing border-box
+          border 1px solid rgba(7,17,27,.1)
+          .name
+            line-height 24px
+            font-size:14px
+            color: rgb(7,17,27)
+          .price
+            position absolute
+            right:90px
+            bottom 12px
+            line-height 12px
+            font-size:14px
+            font-weight 700
+            color: red
+          .cartcontrol-wrapper
+            position absolute
+            right 0
+            bottom:6px
 </style>
