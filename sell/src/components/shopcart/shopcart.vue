@@ -174,10 +174,10 @@ export default {
     height 48px
     background #141d27
     .content
-      border none
       display flex
       background #141d27
       font-size 0
+      margin-left 0px
       .content-left
         flex 1
         .logo-warp
