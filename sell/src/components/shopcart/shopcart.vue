@@ -70,7 +70,7 @@ export default {
   },
   data () {
     return {
-      fold: false
+      fold: true
     }
   },
   computed: {

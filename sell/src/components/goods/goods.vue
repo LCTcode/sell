@@ -14,8 +14,8 @@
           <li v-for="(item,index) in goods" class="food-list food-list-hook" :key="index">
             <h1 class="title">{{item.name}}</h1>
               <ul>
-                <li v-for="(food,index) in item.foods" class="food-item" :key="index">
-                  <div class="icon">
+                <li v-for="(food,index) in item.foods" class="food-item" :key="index" >
+                  <div class="icon" @click="selectFood(food,$event)">
                     <img :src="food.icon" alt="" width="57px">
                   </div>
                   <div class="content">
@@ -43,6 +43,7 @@
         </ul>
       </div>
       <shopcart :select-foods = "selectFoods" :delivery-price = "seller.deliveryPrice" :min-price = "seller.minPrice"></shopcart>
+      <food :food="selectedFood" ref="food"></food> <!--商品详情-->
     </div>
 </template>
 
@@ -50,6 +51,7 @@
 import BScroll from 'better-scroll'
 import shopcart from '../../components/shopcart/shopcart'
 import control from '../../components/carcontrol/control'
+import food from '../../components/food/food'
 
 const errOk = 0
 
@@ -63,7 +65,8 @@ export default {
     return {
       goods: [],
       listHeight: [], // 存储滚动的高度
-      scrollY: 0
+      scrollY: 0,
+      selectedFood: {}
     }
   },
   computed: {
@@ -137,11 +140,19 @@ export default {
         height += item.clientHeight // 节点是一个数组，将其遍历内容后的高度相加，以此获得节点高度
         this.listHeight.push(height)
       }
+    },
+    selectFood (food, event) {
+      if (!event._constructed) { // 如果不存在这个属性,则为原生点击事件，不执行下面的函数
+        return
+      }
+      this.selectedFood = food
+      this.$refs.food.show()
     }
   },
   components: {
     shopcart,
-    control
+    control,
+    food
   }
 }
 </script>
@@ -170,9 +181,9 @@ export default {
           z-index:10
           background #ffffff
           font-weight 700
-          color red
+          color black
           .text
-            color: red
+            top 1px
         .icon
           display inline-block
           width:12px
