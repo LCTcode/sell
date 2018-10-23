@@ -32,20 +32,25 @@
           {{food.info}}
         </p>
       </div>
-      <split></split>
       <div class="rating">
-        <h1 class="title">商品信息</h1>
+        <h1 class="title">商品评价</h1>
+        <slectrating :selectType="selectType" :onlyContent="onlyContent" :desc="desc" :ratings="food.ratings"></slectrating>
       </div>
+      <split></split>
       </div>
     </div>
   </transition>
 </template>
 
 <script>
+const POSITIVE = 0
+const NEGATIVE = 1
+const ALL = 2
 import BScroll from 'better-scroll'
 import Vue from 'vue'
 import control from '../../components/carcontrol/control'
 import split from '../../components/split/split'
+import slectrating from '../../components/selectrating/selectrating'
 export default {
    props: {
      food: {
@@ -54,12 +59,21 @@ export default {
    },
   data () {
     return {
-      showFlag: false
+      showFlag: false,
+      selectType: ALL,
+      onlyContent: true,
+      desc: {
+        all: '全部',
+        positive: '推荐',
+        negative: '吐槽'
+      }
     }
   },
   methods: {
      show () {
        this.showFlag = true
+       this.selectType = ALL
+       this.onlyContent = true
        this.$nextTick(() => {
          if (!this.scroll) {
            this.scroll = new BScroll(this.$refs.foodsScroll, {
@@ -82,7 +96,8 @@ export default {
   },
   components: {
     control,
-    split
+    split,
+    slectrating
   }
 }
 </script>
@@ -180,4 +195,17 @@ export default {
       padding:0 8px
       font-size 12px
       color: rgb(77,68,93)
+  .rating
+    padding-top:18px
+    .title
+      line-height 14px
+      margin-left 18px
+      font-size 14px
+      color: rgb(7,17,27)
+      .text
+        line-height 24px
+        margin-bottom 6px
+        font-size 16px
+        color: rgb(7,17,27)
+
 </style>
