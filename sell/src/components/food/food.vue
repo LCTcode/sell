@@ -34,7 +34,26 @@
       </div>
       <div class="rating">
         <h1 class="title">商品评价</h1>
-        <slectrating @select="select" @toggleContent="toggleContent" :selectType="selectType" :onlyContent="onlyContent" :desc="desc" :ratings="food.ratings"></slectrating>
+        <selectrating @select="select" @toggleContent="toggleContent" :selectType="selectType" :onlyContent="onlyContent" :desc="desc"
+                     :ratings="food.ratings"></selectrating>
+        <div class="rating-wrap">
+          <ul v-show="food.ratings && food.ratings.length">
+            <li v-show="needShow(rating.rateType,rating.text)" v-for="(rating,index) in food.ratings" class="rating-item" :key="index">
+              <div class="user">
+                <span class="name">{{rating.username}}</span>
+                <img :src="rating.avatar" alt="" class="avatar" width="12" height="12">
+              </div>
+              <div class="time">
+                {{rating.rateTime | formatDate}}
+              </div>
+              <p class="text">
+                <span class="icon" :class="{'icon-thumb_up':rating.rateType===0,'icon-thumb_down':rating.rateType===1}"></span>
+                {{rating.text}}
+              </p>
+            </li>
+          </ul>
+          <div class="no-rating" v-show="!food.ratings || !food.ratings.length ">暂无评价</div>
+        </div>
       </div>
       <split></split>
       </div>
@@ -49,13 +68,15 @@ import BScroll from 'better-scroll'
 import Vue from 'vue'
 import control from '../../components/carcontrol/control'
 import split from '../../components/split/split'
-import slectrating from '../../components/selectrating/selectrating'
+import selectrating from '../../components/selectrating/selectrating'
 export default {
    props: {
      food: {
        type: Object
      }
+
    },
+
   data () {
     return {
       showFlag: false,
@@ -94,15 +115,38 @@ export default {
     },
     select (type) {
        this.selectType = type
+      /* this.$nextTick(() => {
+         this.scroll.refresh()
+       })*/
     },
     toggleContent () {
        this.onlyContent = !this.onlyContent
+     /*  this.$nextTick(() => {
+         this.scroll.refresh()
+       })*/
+    },
+    needShow (type, text) {
+       if (this.onlyContent  && !text) { //
+         return false
+       }
+       if (this.selectType === ALL) { //
+         return true
+       }else {
+         return type ===this.selectType // 选择类型与数据一致
+       }
     }
   },
   components: {
     control,
     split,
-    slectrating
+    selectrating
+  },
+  filters: {
+    formatDate (time) {
+      let date = new Date(time)
+      // console.log(date) 格式化日期
+      return date.getFullYear()+"-"+date.getMonth()+"-"+date.getDay()+"  "+date.getHours()+":"+date.getMinutes()+":"+date.getMilliseconds()
+    }
   }
 }
 </script>
@@ -119,7 +163,7 @@ export default {
     background #ffffff
     transform translate3d(0, 0, 0)
   &.showFood-enter-active,&.showFood-leave-active
-      transition all .3s linear
+    transition all .5s
   &.showFood-enter,&.showFood-leave-active
     transform translate3d(100%, 0, 0)
   .image-header
@@ -212,5 +256,45 @@ export default {
         margin-bottom 6px
         font-size 16px
         color: rgb(7,17,27)
+    .rating-wrap
+      padding:0 18px
+      .rating-item
+        position relative
+        padding 16px 0
+        border-bottom 1px solid rgba(7,17,27,.1)
+        .user
+          position absolute
+          right:0
+          top:16px
+          font-size 0
+          line-height 12px
+          .name
+            display inline-block
+            margin-left 6px
+            vertical-align top
+            font-size 10px
+            color: rgb(147,153,159)
+          .avatar
+            border-radius 50%
+        .time
+          margin-bottom 6px
+          line-height 12px
+          font-size 10px
+          color:  rgb(147,153,159)
+        .text
+          line-height 16px
+          font-size 12px
+          color: rgb(7,17,27)
+        .icon
+          margin-right 4px
+          line-height 16px
+          font-size 12px
+          color: rgb(0,160,220)
+        .icon-thumb_down
+          color: rgb(147,153,159)
 
+      .no-rating
+        padding 16px 0
+        font-size 12px
+        color: rgb(147,153,159)
 </style>

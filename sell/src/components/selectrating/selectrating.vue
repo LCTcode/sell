@@ -81,6 +81,7 @@ export default {
 </script>
 
 <style scoped lang="stylus"  type="text/stylus">
+
   .selectrating
     .rating-type
       padding:18px 0
