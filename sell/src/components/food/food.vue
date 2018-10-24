@@ -34,7 +34,7 @@
       </div>
       <div class="rating">
         <h1 class="title">商品评价</h1>
-        <slectrating :selectType="selectType" :onlyContent="onlyContent" :desc="desc" :ratings="food.ratings"></slectrating>
+        <slectrating @select="select" @toggleContent="toggleContent" :selectType="selectType" :onlyContent="onlyContent" :desc="desc" :ratings="food.ratings"></slectrating>
       </div>
       <split></split>
       </div>
@@ -43,8 +43,7 @@
 </template>
 
 <script>
-const POSITIVE = 0
-const NEGATIVE = 1
+
 const ALL = 2
 import BScroll from 'better-scroll'
 import Vue from 'vue'
@@ -92,6 +91,12 @@ export default {
          return
        }
        Vue.set(this.food, 'count', 1)
+    },
+    select (type) {
+       this.selectType = type
+    },
+    toggleContent () {
+       this.onlyContent = !this.onlyContent
     }
   },
   components: {
@@ -112,9 +117,9 @@ export default {
     bottom:48px
     z-index: 30
     background #ffffff
-    transition all .5s
-&.showFood-enter-active,&.showFood-leave-active
-    transform translate3d(-100%, 0, 0)
+    transform translate3d(0, 0, 0)
+  &.showFood-enter-active,&.showFood-leave-active
+      transition all .3s linear
   &.showFood-enter,&.showFood-leave-active
     transform translate3d(100%, 0, 0)
   .image-header
