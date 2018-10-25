@@ -102,7 +102,7 @@ export default {
         width:10px
         height:10px
         background-size 10px 10px
-        margin-right 63px
+        margin-right 6px 
         &:last-child
           margin-right 0
         &.on
