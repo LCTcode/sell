@@ -83,6 +83,9 @@ export default {
       detailShow: false
     }
   },
+  created () {
+    this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special'] // 巧妙 classMap[seller.supports[0].type]
+  },
   methods: {
     showDetail () {
       this.detailShow = true
@@ -90,9 +93,6 @@ export default {
     closeDetail () {
       this.detailShow = false
     }
-  },
-  created () {
-    this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special'] // 巧妙 classMap[seller.supports[0].type]
   },
   components: {
     star
