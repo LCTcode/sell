@@ -20,7 +20,7 @@
       </div>
     </div>
       <transition name="fold">
-        <div class="shopcart-list" v-show="listShow">
+        <div class="shopcart-list" v-show="listShow" >
           <div class="list-header">
             <h1 class="title">购物车</h1>
             <span class="empty" @click="empty">清空</span>
@@ -107,6 +107,7 @@ export default {
     },
     listShow () { // 购物车详情
       if (!this.totalCount) {
+        this.fold =true // 记得清空时，将fold 重置
         return false
       }
       let show = !this.fold
@@ -117,7 +118,8 @@ export default {
             _scroll = new BScroll(this.$refs.listContent, {
               click: true
             })
-          } else {
+          }
+          else {
             this.scroll.refresh()
           }
         })
@@ -130,11 +132,16 @@ export default {
       if (!this.totalCount) {
         return
       }
+      if (this.totalCount == 0) {
+        this.fold = true
+      }
       this.fold = !this.fold
+      // console.log(this.fold)
     },
     empty () {
       this.selectFoods.forEach((food) => {
         food.count = 0
+        this.fold = true // 记得清空时，将fold 重置
       })
     }
   },

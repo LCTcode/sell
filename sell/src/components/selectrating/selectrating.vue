@@ -69,6 +69,7 @@ export default {
       // this.selectValue = type
       console.log(type)
       this.$emit('select', type)
+
     },
     toggleContent (event) {
       if(!event._constructed) {

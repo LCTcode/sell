@@ -1,7 +1,7 @@
 <template>
    <div class="control-wrap">
      <transition name="move">
-     <div class="decrease" @click="decreaseCart" v-show="food.count>0">
+     <div class="decrease" @click="decreaseCart"  v-show="food.count>0" >
        <span class="inner icon-remove_circle_outline"></span>
      </div>
      </transition>
@@ -36,7 +36,7 @@ export default {
       if (this.food.count) {
         this.food.count--
       }
-    }
+        }
   }
 }
 </script>
