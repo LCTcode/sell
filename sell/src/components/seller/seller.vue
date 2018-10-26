@@ -29,6 +29,14 @@
             </li>
           </ul>
         </div>
+        <div class="like">
+          <div class="like-content" @click="like">
+            <span class="icon-favorite" :class="{'change':isLike}"></span>
+          </div>
+        </div>
+            <div class="likeText" :class="{'active':isActive}">
+              <span>{{collection}}</span>
+            </div>
         <split></split>
         <div class="bulletin">
           <h1 class="title">公告与活动</h1>
@@ -76,11 +84,16 @@ export default {
       type: Object
     }
   },
-/*  data () {
+  data () {
     return {
-      classMap: []
-    }多余操作
-  },*/
+      isLike: false,
+      collection :'收藏',
+      isActive: false
+    }
+  },
+  computed: {
+
+  },
   created () {
       this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special'] // 巧妙 classMap[seller.supports[0].type]
     },
@@ -116,6 +129,16 @@ export default {
               this.picScroll.refresh()
             }
           })
+        }
+      },
+      like () {
+        this.isLike = !this.isLike
+        if (this.collection == '收藏') {
+          this.collection = '已收藏'
+          this.isActive = true
+        }else {
+          this.collection = '收藏'
+          this.isActive = false
         }
       }
     },
@@ -179,6 +202,26 @@ export default {
               font-size 24px
               padding-right 16px
 
+    .like
+      position absolute
+      top:8px
+      right:22px
+      .icon-favorite
+        color: rgba(7,17,27,.5)
+      .change
+        color: red
+    .likeText
+      position absolute
+      top:26px
+      right:20px
+      font-size 10px
+      color: rgb(7,17,27)
+    .active
+      position absolute
+      top:26px
+      right:16px
+      font-size 10px
+      color: rgb(7,17,27)
     .bulletin
       padding:18px 18px 0 18px
       .title

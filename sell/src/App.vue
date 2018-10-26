@@ -6,7 +6,9 @@
       <div class="navItem"><router-link to="ratings">评论</router-link></div>
       <div class="navItem"><router-link to="seller">商家</router-link></div>
     </div>
-    <router-view :seller="seller"></router-view> <!--路由传值-->
+    <keep-alive>
+      <router-view :seller="seller" ></router-view> <!--路由传值-->
+    </keep-alive>
   </div>
 </template>
 
