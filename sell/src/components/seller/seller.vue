@@ -42,6 +42,26 @@
             </li>
           </ul>
         </div>
+        <split></split>
+        <div class="pics">
+          <h1 class="title">商家实景</h1>
+          <div class="pic-wrap" ref="picWrap">
+            <ul class="pic-list" ref="picList">
+              <li class="pic-item" v-for="pic in seller.pics">
+                <img :src="pic" alt="商家图片" width="120" height="90" >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <split></split>
+        <div class="info">
+          <h1 class="title">商家信息</h1>
+          <ul>
+            <li v-for="info in seller.infos" class="info-item">
+              {{info}}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 </template>
@@ -59,21 +79,51 @@ export default {
 /*  data () {
     return {
       classMap: []
-    }
+    }多余操作
   },*/
   created () {
       this.classMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special'] // 巧妙 classMap[seller.supports[0].type]
     },
-  mounted () {
-    this.scroll = new BScroll (this.$refs.seller,{
-      click: true
-    })
+  watch: {
+    'seller'() {
+      this.$nextTick(() => {
+        this._initPics()
+      })
+    }
   },
-  components: {
-    star,
-    split
+    mounted() {
+      this.scroll = new BScroll(this.$refs.seller, {
+        click: true
+      })
+      this.$nextTick(() => {
+        this._initPics()
+      })
+    },
+    methods: {
+      _initPics() { // 图片滚动参考good页面的滚动
+        if (this.seller.pics) {
+          let picWidth = 120
+          let margin = 6
+          let width = (picWidth + margin) * this.seller.pics.length - margin
+          this.$refs.picList.style.width = width + 'px'
+          this.$nextTick(() => {
+            if (!this.picScroll) {
+              this.picScroll = new BScroll(this.$refs.picWrap, {
+                scrollX: true,
+                eventPassthrough: 'vertical' // 我们希望横向模拟横向滚动，而纵向的滚动还是保留原生滚动，我们可以设置 eventPassthrough 为 vertical
+              })
+            } else {
+              this.picScroll.refresh()
+            }
+          })
+        }
+      }
+    },
+    components: {
+      star,
+      split
+    }
   }
-}
 </script>
 
 <style scoped lang="stylus" type="text/stylus">
@@ -170,4 +220,37 @@ export default {
             font-size 12px
             line-height 16px
             color: rgb(7,17,27)
+    .pics
+      padding:18px
+      .title
+        margin-bottom 12px
+        margin-left 18px
+        color: rgb(7,17,27)
+        font-size 14px
+      .pic-wrap
+        width: 100%
+        overflow hidden
+        white-space nowrap
+        .pic-list
+          font-size 0
+          .pic-item
+            margin-right 6px
+            display inline-block
+            width:120px
+            height:90px
+            &:last-child
+              margin-right 0
+    .info
+      padding:18px 18px 0 18px
+      .title
+        margin-bottom 12px
+        margin-left 18px
+        color: rgb(7,17,27)
+        font-size 14px
+        border-bottom 1px solid rgba(7,17,27,.1)
+      .info-item
+        padding:16px 12px
+        color: rgb(7,17,27)
+        font-size 12px
+        border 1px solid rgba(7,17,27,.1)
 </style>
