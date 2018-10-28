@@ -26,4 +26,4 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 <a href="https://cloud.tencent.com/developer/article/1195991">https://cloud.tencent.com/developer/article/1195991</a>  中的方法三。
 
 
-效果图片:<a href="https://github.com/LCTcode/sell/blob/master/sell/showPic/sell.gif"></a>
+效果图片:<img src="https://github.com/LCTcode/sell/blob/master/sell/showPic/sell.gif" />
