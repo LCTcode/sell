@@ -57,9 +57,11 @@ app.use('/api', apiRoutes)//通过路由请求数据
     }
 
 项目效果图片:</br>
+
 <img src="https://github.com/LCTcode/sell/blob/master/sell/showPic/sell.gif" />
 
 <strong>各个组件间关系</strong> ：
+
 ─app.vue
   │  ├──header.vue--头部组件
   │  │  ├──star.vue--星星评分组件
@@ -75,7 +77,11 @@ app.use('/api', apiRoutes)//通过路由请求数据
 独立组件
   ├──split.vue--关于分割线组件
 
+
+
+
 <strong>模拟数据的获取</strong> 我这里依旧采用 v-resource 目前官方推荐是 axios：
+
   
   created () {
     this.$http.get('/api/ratings').then((res) => { // 从json 获取到goods
@@ -110,7 +116,9 @@ app.use('/api', apiRoutes)//通过路由请求数据
       transform: scaleY(0.5);
     }
 
+
 <strong>路由</strong>
+
 vue1 与  vue2中的路由配置方式也有不同，这里采用vue2.
 在router 目录下的index.js 中配置：
 
@@ -148,7 +156,9 @@ export default new Router({
 * 重定向是为了刷新以及开始时回到 goods 商品页
 
 
+
 <strong>动画</strong>
+
 在vue 2中，使用标签 <transition name="fade"> </transition>包裹模块，其中name="fade"可以自己定义，其会渲染时自动拓展为：
 .fade-enter，.fade-enter-active等。
 
@@ -172,6 +182,9 @@ enter-cancelled
 leave-cancelled (v-show only)
 appear-cancelled
 
+
+
+
 <strong>组件通信</strong>
 
 父子间采用 props,  
@@ -187,7 +200,10 @@ food (父)：@select="select" ，然后直接在methods 中定义select 进行�
 2：空实例bus 
 
 
+
+
 <strong>获取 DOM</strong>
+  
   
 在标签中用 ref="" 标记，在sctipt 中用 this.$refs 接收
 
@@ -229,7 +245,10 @@ food (父)：@select="select" ，然后直接在methods 中定义select 进行�
       width:100%
 
       
+      
 <strong>滚动 better-scroll 的使用</strong>
+
+
 以 food 组件中为例子：
 
 首先绑定DOM  <div class="food" v-show="showFlag" ref="foodsScroll">
@@ -251,7 +270,9 @@ food (父)：@select="select" ，然后直接在methods 中定义select 进行�
   better-scroll 文档：https://github.com/ustbhuangyi/better-scroll
   
   
+  
 <strong>过滤器</strong>
+
  过滤器设置时间格式：
  
  <div class="time">
