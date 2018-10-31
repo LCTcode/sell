@@ -62,19 +62,19 @@ app.use('/api', apiRoutes)//通过路由请求数据
 
 <strong>各个组件间关系</strong> ：
 
-─app.vue
-  │  ├──header.vue--头部组件
-  │  │  ├──star.vue--星星评分组件
-  │  ├──goods.vue--商品组件
-  │  │  ├──shopcart.vue--购物车组件,包括小球飞入购物车动画
-  │  │  ├──cartcontrol.vue--购买加减图标控件--选中数量返回给父组件goods，goods响应后，重新计算选中数量，将数据发送给购物车组件，
-  │  │  ├──food.vue--商品详情页
-  │  │  │  ├──ratingselect.vue--评价内容筛选组件
-  │  ├──ratings.vue--评论组件
-  │  │  ├──ratingselect.vue--评价内容筛选组件
-  │  ├──seller.vue--商家组件
+─app.vue<br>
+  │  ├──header.vue--头部组件<br>
+  │  │  ├──star.vue--星星评分组件<br>
+  │  ├──goods.vue--商品组件<br>
+  │  │  ├──shopcart.vue--购物车组件,包括小球飞入购物车动画<br>
+  │  │  ├──cartcontrol.vue--购买加减图标控件--选中数量返回给父组件goods，goods响应后，重新计算选中数量，将数据发送给购物车组件，<br>
+  │  │  ├──food.vue--商品详情页<br>
+  │  │  │  ├──ratingselect.vue--评价内容筛选组件<br>
+  │  ├──ratings.vue--评论组件<br>
+  │  │  ├──ratingselect.vue--评价内容筛选组件<br>
+  │  ├──seller.vue--商家组件<br>
 
-独立组件
+独立组件<br>
   ├──split.vue--关于分割线组件
 
 
@@ -83,15 +83,15 @@ app.use('/api', apiRoutes)//通过路由请求数据
 <strong>模拟数据的获取</strong> 我这里依旧采用 v-resource 目前官方推荐是 axios：
 
   
-  created () {
-    this.$http.get('/api/ratings').then((res) => { // 从json 获取到goods
-      res = res.body
-      if (res.errno === errOk) {
-         this.ratings = res.data
-         this.$nextTick(() => { // 因为vue的异步操作原因，当我们在create中操作dom时，注意在$nextTick
-          this.scroll = new BScroll (this.$refs.ratings,{
-            click: true
-          })
+  created () {<br>
+    this.$http.get('/api/ratings').then((res) => { // 从json 获取到goods<br>
+      res = res.body<br>
+      if (res.errno === errOk) {<br>
+         this.ratings = res.data<br>
+         this.$nextTick(() => { // 因为vue的异步操作原因，当我们在create中操作dom时，注意在$nextTick<br>
+          this.scroll = new BScroll (this.$refs.ratings,{<br>
+            click: true<br>
+          })<br>
         })
       }
     })
@@ -109,11 +109,11 @@ app.use('/api', apiRoutes)//通过路由请求数据
 在设备像素比为2倍时, round(1px 2 / 0.5) = 1px
 
 比如：
-@media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {
-  .border-1px {
-    &::after {
-      -webkit-transform: scaleY(0.5);
-      transform: scaleY(0.5);
+@media (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) {<br>
+  .border-1px {<br>
+    &::after {<br>
+      -webkit-transform: scaleY(0.5);<br>
+      transform: scaleY(0.5);<br>
     }
 
 
@@ -122,32 +122,32 @@ app.use('/api', apiRoutes)//通过路由请求数据
 vue1 与  vue2中的路由配置方式也有不同，这里采用vue2.
 在router 目录下的index.js 中配置：
 
-import Vue from 'vue'
-import Router from 'vue-router'
-import goods from '../components/goods/goods'
-import ratings from '../components/ratings/ratings'
-import seller from '../components/seller/seller'
+import Vue from 'vue'<br>
+import Router from 'vue-router'<br>
+import goods from '../components/goods/goods'<br>
+import ratings from '../components/ratings/ratings'<br>
+import seller from '../components/seller/seller'<br>
 
-Vue.use(Router)
+Vue.use(Router)<br>
 
-export default new Router({
-  linkActiveClass: 'active',
-  routes: [
+export default new Router({<br>
+  linkActiveClass: 'active',<br>
+  routes: [<br>
     {
-      path: '/goods',
-      component: goods
+      path: '/goods',<br>
+      component: goods<br>
     },
     {
-      path: '/ratings',
-      component: ratings
+      path: '/ratings',<br>
+      component: ratings<br>
     },
     {
-      path: '/seller',
-      component: seller
+      path: '/seller',<br>
+      component: seller<br>
     },
-    { // 重定向
-      path: '/',
-      redirect: '/goods'
+    { // 重定向<br>
+      path: '/',<br>
+      redirect: '/goods'<br>
     }
   ]
 })
